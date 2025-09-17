@@ -12,7 +12,7 @@ import com.vaadin.starter.bakery.backend.data.entity.User;
 import com.vaadin.starter.bakery.backend.repositories.UserRepository;
 
 /**
- * JAVaDOC
+ * JAVaDOC test
  */
 @Service
 public class UserService implements FilterableCrudService<User> {
