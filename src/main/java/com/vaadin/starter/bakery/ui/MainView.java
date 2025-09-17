@@ -38,6 +38,12 @@ import com.vaadin.starter.bakery.ui.views.storefront.StorefrontView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
+/**
+ * {@code MainView} é o layout principal da aplicação.
+ * Ele define a barra de navegação (menu), o nome do aplicativo e o comportamento
+ * de logout. Além disso, integra o {@link ConfirmDialog} para
+ * confirmações contextuais em diferentes telas.
+ */
 public class MainView extends AppLayout {
 
 	@Autowired
@@ -46,6 +52,11 @@ public class MainView extends AppLayout {
 	private Tabs menu;
 	private static final String LOGOUT_SUCCESS_URL = "/" + BakeryConst.PAGE_ROOT;
 
+	   /**
+     * Inicializa o layout principal após a injeção de dependências.
+     * Configura o diálogo de confirmação, cria o menu de navegação e
+     * adiciona os listeners para logout e eventos de foco na barra de pesquisa.
+     */
 	@PostConstruct
 	public void init() {
 		confirmDialog.setCancelable(true);
@@ -88,6 +99,11 @@ public class MainView extends AppLayout {
 		});
 	}
 
+	/**
+     * Executado após cada navegação.
+     * Fecha o diálogo de confirmação, vincula-o ao conteúdo atual (se aplicável)
+     * e seleciona a aba correspondente à view atual no menu.
+     */
 	@Override
 	protected void afterNavigation() {
 		super.afterNavigation();
@@ -108,51 +124,92 @@ public class MainView extends AppLayout {
 		}
 	}
 
-	private Tabs createMenuTabs() {
-		final Tabs tabs = new Tabs();
-		tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
-		tabs.add(getAvailableTabs());
-		return tabs;
-	}
+	/**
+     * Cria o componente de abas que representa o menu principal de navegação.
+     *
+     * @return uma instância de {@link Tabs} com as abas disponíveis.
+     */
+    private Tabs createMenuTabs() {
+        final Tabs tabs = new Tabs();
+        tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
+        tabs.add(getAvailableTabs());
+        return tabs;
+    }
 
-	private Tab[] getAvailableTabs() {
-		final List<Tab> tabs = new ArrayList<>(4);
-		tabs.add(createTab(VaadinIcon.EDIT, TITLE_STOREFRONT, StorefrontView.class));
-		tabs.add(createTab(VaadinIcon.CLOCK, TITLE_DASHBOARD, DashboardView.class));
-		if (accessChecker.hasAccess(UsersView.class,
-				VaadinServletRequest.getCurrent().getHttpServletRequest())) {
-			tabs.add(createTab(VaadinIcon.USER, TITLE_USERS, UsersView.class));
-		}
-		if (accessChecker.hasAccess(ProductsView.class,
-				VaadinServletRequest.getCurrent().getHttpServletRequest())) {
-			tabs.add(createTab(VaadinIcon.CALENDAR, TITLE_PRODUCTS, ProductsView.class));
-		}
-		final String contextPath = VaadinServlet.getCurrent().getServletContext().getContextPath();
-		final Tab logoutTab = createTab(createLogoutLink(contextPath));
-		logoutTab.setId("logout-tab");
-		tabs.add(logoutTab);
-		return tabs.toArray(new Tab[tabs.size()]);
-	}
+    /**
+     * Retorna as abas disponíveis no menu, de acordo com as permissões do usuário.
+     *
+     * @return um array de {@link Tab} representando as opções de navegação.
+     */
+    private Tab[] getAvailableTabs() {
+        final List<Tab> tabs = new ArrayList<>(4);
+        tabs.add(createTab(VaadinIcon.EDIT, TITLE_STOREFRONT, StorefrontView.class));
+        tabs.add(createTab(VaadinIcon.CLOCK, TITLE_DASHBOARD, DashboardView.class));
 
-	private static Tab createTab(VaadinIcon icon, String title, Class<? extends Component> viewClass) {
-		return createTab(populateLink(new RouterLink("", viewClass), icon, title));
-	}
+        if (accessChecker.hasAccess(UsersView.class,
+                VaadinServletRequest.getCurrent().getHttpServletRequest())) {
+            tabs.add(createTab(VaadinIcon.USER, TITLE_USERS, UsersView.class));
+        }
+        if (accessChecker.hasAccess(ProductsView.class,
+                VaadinServletRequest.getCurrent().getHttpServletRequest())) {
+            tabs.add(createTab(VaadinIcon.CALENDAR, TITLE_PRODUCTS, ProductsView.class));
+        }
 
-	private static Tab createTab(Component content) {
-		final Tab tab = new Tab();
-		tab.addThemeVariants(TabVariant.LUMO_ICON_ON_TOP);
-		tab.add(content);
-		return tab;
-	}
+        final String contextPath = VaadinServlet.getCurrent().getServletContext().getContextPath();
+        final Tab logoutTab = createTab(createLogoutLink(contextPath));
+        logoutTab.setId("logout-tab");
+        tabs.add(logoutTab);
+        return tabs.toArray(new Tab[tabs.size()]);
+    }
 
-	private static Anchor createLogoutLink(String contextPath) {
-		final Anchor a = populateLink(new Anchor(), VaadinIcon.ARROW_RIGHT, TITLE_LOGOUT);
-		return a;
-	}
+    /**
+     * Cria uma aba de navegação para uma view específica.
+     *
+     * @param icon o ícone exibido na aba
+     * @param title o título da aba
+     * @param viewClass a classe da view para navegação
+     * @return uma instância de {@link Tab} com o link configurado
+     */
+    private static Tab createTab(VaadinIcon icon, String title, Class<? extends Component> viewClass) {
+        return createTab(populateLink(new RouterLink("", viewClass), icon, title));
+    }
 
-	private static <T extends HasComponents> T populateLink(T a, VaadinIcon icon, String title) {
-		a.add(icon.create());
-		a.add(title);
-		return a;
-	}
+    /**
+     * Cria uma aba de navegação com conteúdo customizado.
+     *
+     * @param content o componente a ser exibido na aba
+     * @return uma instância de {@link Tab} com o conteúdo fornecido
+     */
+    private static Tab createTab(Component content) {
+        final Tab tab = new Tab();
+        tab.addThemeVariants(TabVariant.LUMO_ICON_ON_TOP);
+        tab.add(content);
+        return tab;
+    }
+
+    /**
+     * Cria o link de logout, exibindo ícone e título.
+     *
+     * @param contextPath caminho de contexto da aplicação
+     * @return um {@link Anchor} configurado para logout
+     */
+    private static Anchor createLogoutLink(String contextPath) {
+        final Anchor a = populateLink(new Anchor(), VaadinIcon.ARROW_RIGHT, TITLE_LOGOUT);
+        return a;
+    }
+
+    /**
+     * Popula um link ou container com ícone e título.
+     *
+     * @param a o container que implementa {@link HasComponents}
+     * @param icon ícone a ser adicionado
+     * @param title título a ser exibido
+     * @param <T> tipo do componente
+     * @return o mesmo componente, para encadeamento de chamadas
+     */
+    private static <T extends HasComponents> T populateLink(T a, VaadinIcon icon, String title) {
+        a.add(icon.create());
+        a.add(title);
+        return a;
+    }
 }
