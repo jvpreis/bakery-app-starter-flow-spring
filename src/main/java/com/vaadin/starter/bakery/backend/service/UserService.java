@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.vaadin.starter.bakery.backend.data.entity.User;
 import com.vaadin.starter.bakery.backend.repositories.UserRepository;
 
+/**
+ * JAVaDOC
+ */
 @Service
 public class UserService implements FilterableCrudService<User> {
 
