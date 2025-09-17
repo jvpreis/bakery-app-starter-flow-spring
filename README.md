@@ -5,7 +5,7 @@
 
 # Running the Project in Development Mode
 
-`mvn spring-boot:run` or just `mvn`
+`mvn spring-boot:run` or just `mvn` 
 
 Wait for the application to start
 
