@@ -126,7 +126,6 @@ public class MainView extends AppLayout {
 
 	/**
      * Cria o componente de abas que representa o menu principal de navegação.
-     *
      * @return uma instância de {@link Tabs} com as abas disponíveis.
      */
     private Tabs createMenuTabs() {
