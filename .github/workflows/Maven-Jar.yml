@@ -34,10 +34,13 @@ jobs:
         git config user.name "jvpreis"
         git config user.email "jvpreis@gmail.com"
 
-    - name: Commit and push JAR to reproduce-5153 branch
+    - name: Push JAR to reproduce-5153 branch
+      env:
+        GH_PAT: ${{ secrets.GH_PAT }}
       run: |
         git checkout -b reproduce-5153 || git checkout reproduce-5153
         git add *.jar
         git commit -m "Add generated JAR file to reproduce-5153 branch" || echo "No changes to commit"
-        git push origin reproduce-5153
+        git push https://x-access-token:${GH_PAT}@github.com/${{ github.repository }} reproduce-5153
+
 
