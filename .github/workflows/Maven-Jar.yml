@@ -3,9 +3,9 @@ name: Build Maven Projet
 
 on:
   push:
-    branches: [ main ]
+    branches: [ reproduce-5153 ]
   pull_request:
-    branches: [ main ]
+    branches: [ reproduce-5153 ]
 
 jobs:
   build:
