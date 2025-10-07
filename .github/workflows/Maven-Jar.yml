@@ -28,6 +28,11 @@ jobs:
       run: |
         mkdir -p package-jar
         find target -name "*.jar" -exec cp {} ./ \;
+    
+    - name: Configure Git
+      run: |
+        git config user.name "jvpreis"
+        git config user.email "jvpreis@gmail.com"
 
     - name: Commit and push JAR to reproduce-5153 branch
       run: |
