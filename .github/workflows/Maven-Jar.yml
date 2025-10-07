@@ -28,3 +28,11 @@ jobs:
       run: |
         mkdir -p package-jar
         find target -name "*.jar" -exec cp {} ./ \;
+
+    - name: Commit and push JAR to reproduce-5153 branch
+      run: |
+        git checkout -b reproduce-5153 || git checkout reproduce-5153
+        git add *.jar
+        git commit -m "Add generated JAR file to reproduce-5153 branch" || echo "No changes to commit"
+        git push origin reproduce-5153
+
