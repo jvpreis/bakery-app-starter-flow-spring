@@ -1,5 +1,5 @@
 
-name: Build Maven Project
+name: Build Maven Projet
 
 on:
   push:
