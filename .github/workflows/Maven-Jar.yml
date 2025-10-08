@@ -7,6 +7,9 @@ on:
   pull_request:
     branches: [ reproduce-5153 ]
 
+permissions:
+  contents: write  # Permite escrever no repositório
+
 jobs:
   build:
     runs-on: ubuntu-latest
