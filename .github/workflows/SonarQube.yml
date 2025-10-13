@@ -1,39 +1,24 @@
 on:
-  # Trigger analysis when pushing in master or pull requests, and when creating
-  # a pull request.
   push:
-    branches:
-      - reproduce-5153
+    branches: [ "main" ]
   pull_request:
-    types: [opened, synchronize, reopened]
-name: Main Workflow
+    branches: [ "main" ]
+
 jobs:
-  sonarqube:
+  sonarcloud-quality-gate:
+    name: SonarCloud Quality Gate Check
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Wait for SonarCloud analysis to complete
+        uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
         with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting.
-          fetch-depth: 0
-
-      # Triggering SonarQube analysis as results of it are required by Quality Gate check.
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          #SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-
-      # Check the Quality Gate status.
-      - name: SonarQube Quality Gate check
-        id: sonarqube-quality-gate-check
-        uses: sonarsource/sonarqube-quality-gate-action@master
-        with:
-          pollingTimeoutSec: 600
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          #SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} #OPTIONAL
-
-      # Optionally you can use the output from the Quality Gate in another step.
-      # The possible outputs of the `quality-gate-status` variable are `PASSED`, `WARN` or `FAILED`.
-      - name: "Example show SonarQube Quality Gate Status value"
-        run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
+          scanMetadataReportFile: .scannerwork/report-task.txt
+          sonarInstanceUrl: https://sonarcloud.io
+          sonarProjectKey: your_org_your_project_key
+          sonarOrganization: your_org_key
+          sonarToken: ${{ secrets.SONAR_TOKEN }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
