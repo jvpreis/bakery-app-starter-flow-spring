@@ -24,6 +24,8 @@ jobs:
           SONAR_HOST_URL: https://sonarcloud.io
           sonar.ProjectKey: jvpreis_bakery-app-starter-flow-spring
           sonar.Organization: jvpreis
+          SONAR_PROJECT_KEY: jvpreis_bakery-app-starter-flow-spring
+          SONAR_ORGANIZATION: jvpreis
 
       # Check the Quality Gate status.
       - name: SonarQube Quality Gate check
