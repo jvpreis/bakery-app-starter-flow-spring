@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
 
       # Triggering SonarQube analysis as results of it are required by Quality Gate check.
-      - name: SonarQube Scan
+      - name: SonarQube Scan  #Deve estar desactivado o Automatic Analysis no SonarQube-propriedades do projeto
         uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
