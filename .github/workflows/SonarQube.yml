@@ -23,4 +23,4 @@ jobs:
           sonarProjectKey: jvpreis_bakery-app-starter-flow-spring
           sonarOrganization: jvpreis
           sonarToken: ${{ secrets.SONAR_TOKEN }}
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          githubToken: ${{ secrets.GH_PAT }}
