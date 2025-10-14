@@ -21,14 +21,15 @@ jobs:
         uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
+          sonarProjectKey: jvpreis_bakery-app-starter-flow-spring
+          sonarOrganization: jvpreis
 
       # Check the Quality Gate status.
       - name: SonarQube Quality Gate check
         id: sonarqube-quality-gate-check
         uses: sonarsource/sonarqube-quality-gate-action@master
         with:
-          sonarProjectKey: jvpreis_bakery-app-starter-flow-spring
-          sonarOrganization: jvpreis
           pollingTimeoutSec: 600
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
