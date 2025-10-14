@@ -22,8 +22,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
-          sonar.ProjectKey: jvpreis_bakery-app-starter-flow-spring
-          sonar.Organization: jvpreis
           SONAR_PROJECT_KEY: jvpreis_bakery-app-starter-flow-spring
           SONAR_ORGANIZATION: jvpreis
 
