@@ -8,6 +8,7 @@
 # (this feature is available starting from SonarQube 9.7, Developer Edition and above)
 
 # 1. Make sure you add a valid GitHub configuration to your SonarQube (Administration > DevOps platforms > GitHub)
+
 # 2. Import your project on SonarQube
 #     * Add your repository as a new project by clicking "Create project" from your homepage.
 #
